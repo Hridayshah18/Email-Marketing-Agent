@@ -16,6 +16,7 @@ export function CampaignBuilder({ promotions, selectedPromotionId, campaign }: {
   const [preview, setPreview] = useState(campaign?.preview_text || "");
   const [plain, setPlain] = useState(campaign?.plain_text_body || "");
   const [html, setHtml] = useState(campaign?.html_body || "");
+  const [emailStyle, setEmailStyle] = useState<"marketing_template" | "plain_outreach">(campaign?.email_style || "marketing_template");
   const [warnings, setWarnings] = useState<string[]>([]);
   const [error, setError] = useState("");
 
@@ -24,7 +25,7 @@ export function CampaignBuilder({ promotions, selectedPromotionId, campaign }: {
     setLoading(true);
     setError("");
     try {
-      const payload = { promotion_id: promotion.id, ...promotion };
+      const payload = { promotion_id: promotion.id, ...promotion, email_style: emailStyle };
       const response = await fetch("/api/ai/generate-campaign", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -67,9 +68,19 @@ export function CampaignBuilder({ promotions, selectedPromotionId, campaign }: {
       <form action={saveCampaign} className="grid gap-5 rounded-lg border border-slate-200 bg-white p-5">
         <input type="hidden" name="id" defaultValue={campaign?.id} />
         <input type="hidden" name="selected_subject_index" value={selected ?? ""} />
+        <input type="hidden" name="email_style" value={emailStyle} />
         <Field label="Promotion">
           <Select name="promotion_id" value={promotionId} onChange={(event) => setPromotionId(event.target.value)}>
             {promotions.map((item) => <option value={item.id} key={item.id}>{item.title}</option>)}
+          </Select>
+        </Field>
+        <Field
+          label="Email Style"
+          hint="Plain Outreach reduces promotional formatting, but inbox placement is controlled by the recipient's email provider."
+        >
+          <Select value={emailStyle} onChange={(event) => setEmailStyle(event.target.value as "marketing_template" | "plain_outreach")}>
+            <option value="marketing_template">Marketing Template</option>
+            <option value="plain_outreach">Plain Outreach</option>
           </Select>
         </Field>
         <Field label="Campaign name"><Input name="name" required defaultValue={campaign?.name || promotion?.title || ""} /></Field>

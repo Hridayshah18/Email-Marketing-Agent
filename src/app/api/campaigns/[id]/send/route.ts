@@ -62,6 +62,7 @@ export async function POST(_request: Request, { params }: { params: Promise<{ id
       replyEmail: settings?.reply_to_email || process.env.DEFAULT_REPLY_TO_EMAIL || DEFAULT_REPLY_EMAIL,
       websiteUrl: settingsWebsiteUrl || COMPANY_WEBSITE,
       addressLine: settings?.address_line,
+      emailStyle: campaign.email_style || "marketing_template",
     });
 
     try {

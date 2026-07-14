@@ -44,6 +44,7 @@ create table if not exists campaigns (
   id uuid primary key default gen_random_uuid(),
   promotion_id uuid references promotions(id) on delete set null,
   name text not null,
+  email_style text default 'marketing_template' check (email_style in ('marketing_template', 'plain_outreach')),
   subject text,
   preview_text text,
   plain_text_body text,

@@ -13,12 +13,28 @@ export type GenerateCampaignInput = {
   cta_text?: string | null;
   cta_url?: string | null;
   tone?: string | null;
+  email_style?: "marketing_template" | "plain_outreach";
 };
 
 const systemPrompt =
   "You are the AI email marketing agent for Digital Terrene, a modern digital agency helping businesses grow through websites, social media marketing, logo design, branding, AI-generated ads, software development, automation, SEO, and complete digital growth systems. You write clear, high-converting promotional emails. You are persuasive but honest. You never make fake guarantees. You avoid spammy language. You write short, premium, conversion-focused emails.";
 
 function buildPrompt(input: GenerateCampaignInput) {
+  const emailStyle = input.email_style || "marketing_template";
+  const styleRules =
+    emailStyle === "plain_outreach"
+      ? `Email style: plain_outreach.
+- Write this like a short personal business email, not a newsletter or promotional flyer. Avoid hype, discounts, emojis, big claims, and salesy language.
+- Keep the plain_text_body under 150 words.
+- Keep html_body minimal: simple paragraphs only, no hero banner, no offer box, no large logo image, no big CTA button.
+- Include at most 1 main link using {{cta_url}}.
+- Include a simple text CTA similar to: "You can visit us here: {{cta_url}}".
+- Use natural, human-written subject lines.`
+      : `Email style: marketing_template.
+- Keep the current responsive HTML email template approach.
+- Include a header/logo area, a clear hero section, a CTA button, an offer/details box, and an email-safe footer.
+- Use inline styles and responsive, email-safe HTML.`;
+
   return `${systemPrompt}
 
 Generate valid JSON matching this exact shape:
@@ -34,7 +50,7 @@ Generate valid JSON matching this exact shape:
 Rules:
 - exactly 10 subject lines
 - each subject under 60 characters
-- plain_text_body under 250 words
+- plain_text_body under 250 words unless plain_outreach is selected
 - html_body must be responsive email-safe HTML
 - use {{first_name}} personalization
 - include CTA
@@ -43,6 +59,7 @@ Rules:
 - no markdown code fences
 - no explanation outside JSON
 - avoid spammy words, fake promises, and misleading urgency
+${styleRules}
 
 Promotion:
 ${JSON.stringify(input)}`;
@@ -127,4 +144,3 @@ export async function generateCampaign(input: GenerateCampaignInput) {
 
   throw new Error(`Unsupported AI_PROVIDER: ${provider}`);
 }
-

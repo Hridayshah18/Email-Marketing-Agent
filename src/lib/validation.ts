@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export const emailStyleSchema = z.enum(["marketing_template", "plain_outreach"]);
+
 export const emailSchema = z.string().email().transform((value) => value.toLowerCase().trim());
 
 export const contactSchema = z.object({
@@ -27,11 +29,13 @@ export const promotionSchema = z.object({
 
 export const aiCampaignSchema = promotionSchema.extend({
   promotion_id: z.string().uuid(),
+  email_style: emailStyleSchema.default("marketing_template"),
 });
 
 export const campaignUpdateSchema = z.object({
   promotion_id: z.string().uuid().optional().nullable(),
   name: z.string().trim().min(2),
+  email_style: emailStyleSchema.default("marketing_template"),
   subject: z.string().trim().optional().nullable(),
   preview_text: z.string().trim().optional().nullable(),
   plain_text_body: z.string().trim().optional().nullable(),
@@ -49,4 +53,3 @@ export const aiOutputSchema = z.object({
   cta_text: z.string(),
   spam_warnings: z.array(z.string()),
 });
-

@@ -28,10 +28,10 @@ export type Campaign = {
   id?: string;
   promotion_id?: string | null;
   name?: string | null;
+  email_style?: "marketing_template" | "plain_outreach" | null;
   subject?: string | null;
   preview_text?: string | null;
   plain_text_body?: string | null;
   html_body?: string | null;
   selected_subject_index?: number | null;
 };
-
