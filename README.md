@@ -12,15 +12,29 @@ AI-powered campaign generation, sending, tracking, and analytics for **Digital T
 
 > A production-oriented internal email marketing agent that helps Digital Terrene create promotions, generate AI-powered campaigns, send personalized emails through Resend, track clicks/unsubscribes, and review performance from a clean admin dashboard.
 
-- Production app domain: `https://email.digitalterrene.online`
-- Company website: `https://digitalterrene.online`
-- Sending identity: `Digital Terrene <promotions@digitalterrene.online>`
-- Public demo mode: safe mock data only
+- Live Demo: `https://email.digitalterrene.online/demo`
+- Admin Portal: `https://email.digitalterrene.online/login`
+- Company Website: `https://digitalterrene.online`
+- Sending Identity: `Digital Terrene <promotions@digitalterrene.online>`
+- Public Demo Mode: safe mock data only, no real sending
+
+---
+
+## Live Access
+
+| Mode | Link | Access |
+| --- | --- | --- |
+| Public Demo | [Check Demo](https://email.digitalterrene.online/demo) | Open to everyone, mock data only |
+| Admin Portal | [Admin Login](https://email.digitalterrene.online/login) | Digital Terrene team only |
+| Company Website | [Digital Terrene](https://digitalterrene.online) | Public business website |
+
+> Demo Mode is safe for public visitors. It uses fake contacts, fake campaigns, and fake analytics only. It cannot send emails, call Resend, call Gemini/OpenAI, write to Supabase, or access real Digital Terrene campaign data.
 
 ---
 
 ## Table of Contents
 
+- [Live Access](#live-access)
 - [Overview](#overview)
 - [Key Features](#key-features)
 - [Admin Mode and Demo Mode](#admin-mode-and-demo-mode)
@@ -561,18 +575,20 @@ Deployment reminders:
 
 ### Production
 
-- [ ] `https://email.digitalterrene.online` opens
-- [ ] `https://email.digitalterrene.online/dt-logo.png` opens
-- [ ] Admin login works
-- [ ] Demo mode works
-- [ ] Supabase connection works
-- [ ] Gemini generation works
-- [ ] Resend sends from verified domain
-- [ ] Test email logo loads
-- [ ] CTA redirects to `https://digitalterrene.online`
-- [ ] Click events update analytics
-- [ ] Unsubscribe works
-- [ ] Resend webhook receives events
+Production review items:
+
+- `https://email.digitalterrene.online` should open.
+- `https://email.digitalterrene.online/dt-logo.png` should open.
+- Admin login should work for Digital Terrene team members.
+- Demo mode should remain public and mock-data only.
+- Supabase connection should work with production env vars.
+- Gemini generation should work with production env vars.
+- Resend should send from the verified Digital Terrene domain.
+- Test email logo should load from the production app domain.
+- CTA links should redirect to `https://digitalterrene.online`.
+- Click events should update analytics.
+- Unsubscribe flow should update contact and recipient state.
+- Resend webhook should receive delivery events after configuration.
 
 ---
 
