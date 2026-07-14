@@ -612,7 +612,6 @@ No open-source license has been applied yet. This project is intended for Digita
 ## Authors
 
 - Hriday Shah
-- Digital Terrene
 
 ---
 
